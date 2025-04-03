@@ -1,0 +1,9 @@
+@use '@st/functions' as func;
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0px func.adapt(30px, 1920px);
+	height: 100%;
+}

@@ -1,0 +1,13 @@
+@use '@st/functions' as func;
+@use '@st/variables' as vars;
+
+.button {
+	background-color: vars.$blue_grey;
+	color: vars.$white;
+	font-size: 0.85rem;
+	padding: func.adapt(5px, 1920px) func.adapt(15px, 1920px);
+
+	&:hover {
+		cursor: pointer;
+	}
+}

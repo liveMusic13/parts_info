@@ -1,0 +1,19 @@
+@use '@st/functions' as func;
+@use '@st/variables' as vars;
+
+.block__otherInfo {
+	margin-top: func.adapt(20px, 1920px);
+	background-color: vars.$white;
+	padding: func.adapt(20px, 1920px);
+	border-radius: func.adapt(8px, 1920px);
+	box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+	width: 100%;
+}
+
+.block__description {
+	margin-top: func.adapt(20px, 1920px);
+
+	display: flex;
+	flex-direction: column;
+	gap: func.adapt(10px, 1920px);
+}
