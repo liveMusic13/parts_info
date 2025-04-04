@@ -61,19 +61,19 @@ const CardProduct: FC = () => {
 					<div className={styles.block__info}>
 						<Info
 							title='Нормализованный артикул:'
-							value={(data as IFullInfo).normalized_article || ''}
+							value={(data as IFullInfo)?.normalized_article || ''}
 						/>
 						<Info
 							title='Поставщик JC:'
-							value={(data as IFullInfo).supplier_from_jc.name || ''}
+							value={(data as IFullInfo)?.supplier_from_jc?.name || ''}
 						/>
 						<Info
 							title='Поставщик TD:'
-							value={(data as IFullInfo).supplier_from_td.description || ''}
+							value={(data as IFullInfo)?.supplier_from_td?.description || ''}
 						/>
 						<Info
 							title='Ean'
-							value={(data as IFullInfo).article_ean?.ean || ''}
+							value={(data as IFullInfo)?.article_ean?.ean || ''}
 						/>
 						<Button
 							style={{

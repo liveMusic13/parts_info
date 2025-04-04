@@ -3,7 +3,7 @@
 
 .wrapper_cardProduct {
 	margin-top: func.adapt(20px, 1920px);
-	min-height: func.adapt(300px, 1920px);
+	min-height: func.adapt(365px, 1920px);
 	width: 100%;
 	padding: func.adapt(30px, 1920px);
 	background-color: vars.$white;
@@ -14,7 +14,9 @@
 }
 
 .block__info {
-	flex-grow: 1;
+	// flex-grow: 1;
+	// max-width: func.adapt(1000px, 1920px);
+	width: 41%;
 }
 
 .title__description {

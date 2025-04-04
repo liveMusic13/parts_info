@@ -38,7 +38,12 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 
 					<img
 						className={styles.image__target}
-						src={arrImage[currentIndex]}
+						// src={arrImage[currentIndex]}
+						src={
+							arrImage.length > 0
+								? arrImage[currentIndex]
+								: '/images/no_image.jpg'
+						}
 						alt='target-image'
 						onClick={toggleFullscreen}
 					/>
@@ -82,7 +87,11 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 
 						<img
 							className={styles.image__target_fullScreen}
-							src={arrImage[currentIndex]}
+							src={
+								arrImage.length > 0
+									? arrImage[currentIndex]
+									: '/images/no_image.jpg'
+							}
 							alt='fullscreen'
 							style={isScale ? { transform: 'scale(1.8)' } : {}}
 							onClick={handleScale}
