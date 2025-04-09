@@ -14,8 +14,6 @@ import Layout from '../../layout/Layout';
 import Input from '../../ui/input/Input';
 import Loader from '../../ui/loader/Loader';
 
-import styles from './ProductPage.module.scss';
-
 const ProductPage: FC = () => {
 	const { handleChangeSearchValue, handleClickSearch } = useSearchProducts();
 	const valueSearch = useSearchStore(store => store.valueSearch);
@@ -24,18 +22,15 @@ const ProductPage: FC = () => {
 		store => store.nameDetailInfo,
 	);
 
-	const {
-		data: data_detail,
-		isLoading: isLoading_detail,
-		isError: isError_detail,
-		error: error_detail,
-		isSuccess: isSuccess_detail,
-	} = useGetDetailInfo(valueSearch, nameDetailInfo);
+	const { data: data_detail, isSuccess: isSuccess_detail } = useGetDetailInfo(
+		valueSearch,
+		nameDetailInfo,
+	);
 	const { isLoading, refetch, isError, error } = useGetSuppliers(valueSearch);
 
 	return (
 		<Layout>
-			<div className={styles.block__search}>
+			<div>
 				<Input
 					placeholder='Введите запрос'
 					isButton={true}
@@ -44,12 +39,8 @@ const ProductPage: FC = () => {
 					onChange={handleChangeSearchValue}
 				/>
 			</div>
-			{isLoading && isLoading_detail && <Loader />}
-			{isError && isError_detail && (
-				<div>
-					Ошибка получения данных: {error?.message || error_detail?.message}
-				</div>
-			)}
+			{isLoading && <Loader />}
+			{isError && <div>Ошибка получения данных: {error?.message}</div>}
 			<CardProduct />
 			{isSuccess_detail && data_detail && (
 				<OtherInfo data_detail={data_detail as IFullInfo} />

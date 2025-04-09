@@ -5,7 +5,10 @@ import {
 	IApiResponse,
 	IEtPartResponse,
 	IFullInfo,
+	IJSSCrossRequest,
 	ISuppliersResponse,
+	ITecDocCrossResponse,
+	IVolnaPartsResponse,
 } from '../types/request.types';
 
 export const ProductsInfoService = {
@@ -51,6 +54,61 @@ export const ProductsInfoService = {
 	> => {
 		try {
 			const response = await $axios.get(`/et-part/${code}/${producer_id}/`);
+
+			return {
+				data: response.data,
+				status: response.status,
+			};
+		} catch (axiosError: any) {
+			const error = axiosError;
+			throw new Error(error.response?.data?.message || error.message);
+		}
+	},
+	volna_parts: async (
+		article: string,
+	): Promise<
+		IApiResponse<
+			IVolnaPartsResponse[] | Error | AxiosError<{ message?: string }>
+		>
+	> => {
+		try {
+			const response = await $axios.get(`volna-parts/part/${article}`);
+
+			return {
+				data: response.data,
+				status: response.status,
+			};
+		} catch (axiosError: any) {
+			const error = axiosError;
+			throw new Error(error.response?.data?.message || error.message);
+		}
+	},
+	tec_doc_cross: async (
+		article: string,
+	): Promise<
+		IApiResponse<
+			ITecDocCrossResponse[] | Error | AxiosError<{ message?: string }>
+		>
+	> => {
+		try {
+			const response = await $axios.get(`/tec-doc-cross/cross/${article}`);
+
+			return {
+				data: response.data,
+				status: response.status,
+			};
+		} catch (axiosError: any) {
+			const error = axiosError;
+			throw new Error(error.response?.data?.message || error.message);
+		}
+	},
+	jss_cross: async (
+		article: string,
+	): Promise<
+		IApiResponse<IJSSCrossRequest[] | Error | AxiosError<{ message?: string }>>
+	> => {
+		try {
+			const response = await $axios.get(`/cr-t-cross/bycode/${article}`);
 
 			return {
 				data: response.data,

@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+
+:root {
+	--font-size: 14px;
+	--blue-grey: #2e3b4c;
+	--white-black: #f5f5fa;
+	--white: #fff;
+	--red: #ca1d37;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+a {
+	text-decoration: none;
+}
+
+ul,
+ol,
+li {
+	list-style: none;
+}
+
+img {
+	vertical-align: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: inherit;
+	font-size: inherit;
+}
+
+html,
+body {
+	height: 100%;
+	font-size: var(--font-size);
+	background-color: var(--white-black);
+}
+
+@media (max-width: 1400px) {
+	html,
+	body {
+		font-size: 13px;
+	}
+}
+
+@media (max-width: 1200px) {
+	html,
+	body {
+		font-size: 12px;
+	}
+}
+
+@media (max-width: 991.98px) {
+	html,
+	body {
+		font-size: 11px;
+	}
+}
+
+#root {
+	height: 100%;
+}

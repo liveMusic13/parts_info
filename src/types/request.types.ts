@@ -6,10 +6,12 @@ export interface IApiResponse<T> {
 export interface ITd {
 	dataversion: number;
 	description: string;
+	description_two?: string;
 	hasnewversionarticles: boolean;
 	id: number;
 	matchcode: string;
 	nbrofarticles: number;
+	img: string;
 }
 
 export interface IJs {
@@ -23,8 +25,9 @@ export interface IJs {
 	prefix: string;
 	rating: string;
 	realid: string;
-	tecdocSupplierId: string;
+	tecdocSupplierId: number;
 	www: string;
+	img: string;
 }
 
 export interface ISuppliersResponse {
@@ -99,4 +102,90 @@ export interface IEtPartResponse {
 	rating: number;
 	old: boolean;
 	dead: boolean;
+}
+
+export interface ISpecifications {
+	['Диаметр [мм]']: string;
+	['Ширина [мм]']: string;
+}
+
+export interface IReplacement {
+	article: string;
+	brand: string;
+	delivery: string;
+	image: string;
+	price: string | null;
+	quantity: string | null;
+}
+
+export interface IVolnaPartsResponse {
+	images: string[];
+	name: string;
+	replacements: IReplacement[];
+	specifications: ISpecifications;
+}
+
+export interface IManufacturer {
+	canbedisplayed: boolean;
+	description: string;
+	fulldescription: string;
+	haslink: boolean;
+	id: number;
+	isaxle: boolean;
+	iscommercialvehicle: boolean;
+	isengine: boolean;
+	ismotorbike: boolean;
+	ispassengercar: boolean;
+	istransporter: boolean;
+	isvgl: boolean;
+	matchcode: string;
+}
+
+export interface ISupplier {
+	dataversion: number;
+	description: string;
+	hasnewversionarticles: boolean;
+	id: number;
+	matchcode: string;
+	nbrofarticles: number;
+}
+
+export interface ITecDocCrossResponse {
+	IsAdditive: boolean;
+	OENbr: string;
+	datasupplierarticlenumber: string;
+	supplierid: number;
+	manufacturerId: number;
+	manufacturer: IManufacturer;
+	supplier: ISupplier;
+}
+
+export interface IEtProducerRequest {
+	address: string;
+	domain: string;
+	existId: string;
+	existName: string;
+	id: number;
+	marketPrefix: string;
+	name: string;
+	prefix: string;
+	rating: string;
+	realid: string;
+	tecdocSupplierId: string;
+	www: string;
+}
+
+export interface IJSSCrossRequest {
+	cr_by: string;
+	cr_bycode: string;
+	cr_cross: string;
+	cr_crosscode: string;
+	cr_date: string;
+	cr_deleted: string;
+	cr_id: string;
+	cr_ismainnew: string;
+	cr_maincode: string;
+	cr_session_id: string;
+	cr_verity: string;
+	et_producer: IEtProducerRequest;
 }

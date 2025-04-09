@@ -2,13 +2,15 @@ import { FC } from 'react';
 
 import { IButtonProps } from '../../../types/props.types';
 
-import styles from './Button.module.scss';
-
-const Button: FC<IButtonProps> = ({ children, onClick, style, disabled }) => {
+const Button: FC<IButtonProps> = ({
+	children,
+	onClick,
+	className,
+	disabled,
+}) => {
 	return (
 		<button
-			className={styles.button}
-			style={style}
+			className={`bg-[var(--blue-grey)] text-[var(--white)] text-[0.85rem] py-1 px-3.5 hover:cursor-pointer ${className}`}
 			onClick={onClick}
 			disabled={disabled}
 		>

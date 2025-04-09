@@ -4,7 +4,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import Router from './routes/Router.tsx';
-import './styles/global.scss';
+import './styles/global.css';
 
 const queryClient = new QueryClient();
 

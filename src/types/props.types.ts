@@ -1,11 +1,11 @@
-import { CSSProperties, ChangeEvent, PropsWithChildren } from 'react';
+import { ChangeEvent, PropsWithChildren } from 'react';
 
 import { IFullInfo, IJs, ITd } from './request.types';
 
 export interface IInputProps {
-	style?: CSSProperties;
-	styleInput?: CSSProperties;
-	styleImage?: CSSProperties;
+	className?: string;
+	classNameInput?: string;
+	classNameImage?: string;
 	placeholder?: string;
 	value?: string;
 	isButton?: boolean;
@@ -14,7 +14,7 @@ export interface IInputProps {
 }
 
 export interface IButtonProps extends PropsWithChildren {
-	style?: CSSProperties;
+	className?: string;
 	disabled?: boolean;
 	onClick?: () => void;
 }
@@ -41,4 +41,12 @@ export interface IPanelTargetProps {
 
 export interface IOtherInfoProps {
 	data_detail: IFullInfo;
+}
+
+export interface IDescriptionProps {
+	data_detail: IFullInfo;
+}
+
+export interface ICroseCodeProps {
+	isTecDoc: boolean;
 }

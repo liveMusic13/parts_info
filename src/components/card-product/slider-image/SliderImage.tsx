@@ -2,8 +2,6 @@ import { FC, useState } from 'react';
 
 import { ISliderImageProps } from '../../../types/props.types';
 
-import styles from './SliderImage.module.scss';
-
 const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 	const [currentIndex, setCurrentIndex] = useState<number>(0);
 	const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
@@ -30,14 +28,17 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 	return (
 		<>
 			{/* Обычный режим */}
-			<div className={styles.wrapper_miniSlider}>
-				<div className={styles.block__targetImage}>
-					<button className={styles.button} onClick={handlePrev}>
+			<div className='relative text-center w-[21rem] h-[21rem] bg-[var(--white) p-5 rounded-[0.57rem] shadow-[0px_0px_6px_0px_rgba(0,0,0,0.2)] flex flex-col justify-between'>
+				<div className='w-full h-36 flex items-center justify-between group'>
+					<button
+						className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out hover:cursor-pointer bg-transparent'
+						onClick={handlePrev}
+					>
 						{'<'}
 					</button>
 
 					<img
-						className={styles.image__target}
+						className='object-cover w-fit h-full hover:cursor-pointer'
 						// src={arrImage[currentIndex]}
 						src={
 							arrImage.length > 0
@@ -48,20 +49,23 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 						onClick={toggleFullscreen}
 					/>
 
-					<button className={styles.button} onClick={handleNext}>
+					<button
+						className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out hover:cursor-pointer bg-transparent'
+						onClick={handleNext}
+					>
 						{'>'}
 					</button>
 				</div>
 
-				<p className={styles.num__target}>
+				<p className='font-bold text-[0.71rem]'>
 					{arrImage.length > 0 ? `${currentIndex + 1}/${arrImage.length}` : ''}
 				</p>
 
-				<div className={styles.arr__fullImages}>
+				<div className='flex gap-1.5 h-12 overflow-y-auto overflow-x-hidden w-full justify-center'>
 					{arrImage.map((img, index) => (
 						<img
 							key={index}
-							className={styles.fullImages__image}
+							className='w-12 h-12 rounded-[4px] object-cover hover:cursor-pointer'
 							src={img}
 							alt='thumbnail'
 							onClick={() => handleThumbnailClick(index)}
@@ -75,18 +79,24 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 
 			{/* Полноэкранный режим */}
 			{isFullscreen && (
-				<div className={styles.wrapper_FullScreen_Slider}>
-					<button onClick={toggleFullscreen} className={styles.button_exit}>
+				<div className='fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.9)] flex justify-center items-center z-[1000]'>
+					<button
+						onClick={toggleFullscreen}
+						className='absolute top-20 right-20 text-2xl text-[var(--white)] bg-transparent hover:cursor-pointer'
+					>
 						×
 					</button>
 
-					<div className={styles.block__targetImage_fullScreen}>
-						<button className={styles.button_fullScreen} onClick={handlePrev}>
+					<div className='flex items-center justify-between gap-3.5 group'>
+						<button
+							className='opacity-0 group-hover:opacity-100 text-xl transition-opacity duration-300 ease-in-out bg-transparent text-[var(--white)] hover:cursor-pointer'
+							onClick={handlePrev}
+						>
 							{'<'}
 						</button>
 
 						<img
-							className={styles.image__target_fullScreen}
+							className='max-w-[90vw] max-h-[80vh] object-contain'
 							src={
 								arrImage.length > 0
 									? arrImage[currentIndex]
@@ -97,16 +107,19 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 							onClick={handleScale}
 						/>
 
-						<button className={styles.button_fullScreen} onClick={handleNext}>
+						<button
+							className='opacity-0 group-hover:opacity-100 text-xl transition-opacity duration-300 ease-in-out bg-transparent text-[var(--white)] hover:cursor-pointer'
+							onClick={handleNext}
+						>
 							{'>'}
 						</button>
 					</div>
 
-					<div className={styles.arr__fullImages_fullScreen}>
+					<div className='absolute bottom-7 flex gap-3.5 '>
 						{arrImage.map((img, index) => (
 							<img
 								key={index}
-								className={styles.fullImages__image_fullScreen}
+								className='w-36 h-24 rounded-[0.42rem] object-cover hover:cursor-pointer'
 								src={img}
 								alt='thumbnail'
 								onClick={() => handleThumbnailClick(index)}

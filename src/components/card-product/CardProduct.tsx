@@ -7,7 +7,6 @@ import { IEtPartResponse, IFullInfo } from '../../types/request.types';
 import Button from '../ui/button/Button';
 import Loader from '../ui/loader/Loader';
 
-import styles from './CardProduct.module.scss';
 import Info from './info/Info';
 import SliderImage from './slider-image/SliderImage';
 
@@ -17,10 +16,14 @@ const CardProduct: FC = () => {
 		store => store.nameDetailInfo,
 	);
 
-	const { data, isLoading, isSuccess } = useGetDetailInfo(
-		valueSearch,
-		nameDetailInfo,
-	);
+	const {
+		data,
+		isLoading,
+		isSuccess,
+		isError,
+		error,
+		refetch: refetch_detailInfo,
+	} = useGetDetailInfo(valueSearch, nameDetailInfo);
 
 	const articleCode = (data as IFullInfo)?.article_schema?.FoundString || '';
 	const supplierId = (data as IFullInfo)?.supplier_from_jc.id;
@@ -37,18 +40,13 @@ const CardProduct: FC = () => {
 	const handleClick = () => refetch();
 
 	useEffect(() => {
-		if (isError_etPart) {
-			console.log('isError_etPart', isError_etPart, error_etPart);
-		} else if (isSuccess_etPart) {
-			console.log('isSuccess_etPart', isSuccess_etPart, data_etPart);
-		} else {
-			console.log('xz');
-		}
-	}, [isError_etPart, isSuccess_etPart]);
+		if (nameDetailInfo) refetch_detailInfo();
+	}, [nameDetailInfo]);
 
 	return (
-		<div className={styles.wrapper_cardProduct}>
+		<div className='mt-5 w-full p-7.5 bg-[var(--white)] rounded-xl shadow-[0px_0px_10px_rgba(0,0,0,0.08)] flex gap-10'>
 			{isLoading && <Loader />}
+			{isError && <div>Ошибка получения данных: {error?.message}</div>}
 			{isSuccess && (
 				<>
 					<SliderImage
@@ -58,7 +56,7 @@ const CardProduct: FC = () => {
 							...(data as IFullInfo).img_urls,
 						]}
 					/>
-					<div className={styles.block__info}>
+					<div className='w-[41%]'>
 						<Info
 							title='Нормализованный артикул:'
 							value={(data as IFullInfo)?.normalized_article || ''}
@@ -75,19 +73,14 @@ const CardProduct: FC = () => {
 							title='Ean'
 							value={(data as IFullInfo)?.article_ean?.ean || ''}
 						/>
-						<Button
-							style={{
-								borderRadius: 'calc(6/1920*100vw)',
-								margin: 'calc(10/1920*100vw) 0px',
-							}}
-							onClick={handleClick}
-						>
+						<Button className='rounded-[0.428rem] my-2.5' onClick={handleClick}>
 							Дополнительно
 						</Button>
 						{isError_etPart && (
 							<div>Ошибка получения данных: {error_etPart?.message}</div>
 						)}
 						{isLoading_etPart && <Loader />}
+
 						{isSuccess_etPart &&
 							!isError_etPart &&
 							(data_etPart as IEtPartResponse[]) &&
