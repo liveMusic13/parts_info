@@ -31,7 +31,7 @@ const OtherInfo: FC<IOtherInfoProps> = ({ data_detail }) => {
 				dataButtons={otherInfoButtons}
 			/>
 			{activeButton === 'Описание' && <Description data_detail={data_detail} />}
-			{activeButton === 'Заменники' && <Substitutes />}
+			{activeButton === 'Аналоги' && <Substitutes />}
 		</div>
 	);
 };

@@ -2,10 +2,7 @@ import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useVolnaParts } from '../../../../hooks/requests/useVolnaParts';
-import {
-	useNameForDetailInfoStore,
-	useSearchStore,
-} from '../../../../store/store';
+import { useSearchStore } from '../../../../store/store';
 import {
 	IReplacement,
 	IVolnaPartsResponse,
@@ -16,9 +13,6 @@ import CrossCode from './cross-code/CrossCode';
 
 const Substitutes: FC = () => {
 	const valueSearch = useSearchStore(store => store.valueSearch);
-	const setNameDetailInfo = useNameForDetailInfoStore(
-		store => store.setNameDetailInfo,
-	);
 	const [arrData, setArrData] = useState<IReplacement[] | null>();
 	const [viewCodeTD, setViewCodeTD] = useState<boolean>(false);
 	const [viewCodeJSS, setViewCodeJSS] = useState<boolean>(false);
@@ -35,9 +29,6 @@ const Substitutes: FC = () => {
 		}
 	}, [data, isSuccess]);
 
-	const handleClick = (el: IReplacement) => {
-		setNameDetailInfo(el.brand);
-	};
 	const handleViewCode = (
 		value: boolean,
 		setValue: Dispatch<SetStateAction<boolean>>,
@@ -50,9 +41,11 @@ const Substitutes: FC = () => {
 			<ul className='flex flex-wrap gap-3.5 '>
 				{arrData &&
 					arrData.map((el, ind) => (
-						<li key={ind} onClick={() => handleClick(el)}>
+						<li key={ind}>
 							<Link
-								to={`/product/${el.brand}`}
+								// to={`/`}
+								to={`/?valueSearch=${encodeURIComponent(el.article)}`}
+								target='_blank'
 								className='flex flex-col h-full w-80 rounded-[0.428rem] shadow-[0px_0px_4px_rgba(0,0,0,0.4)] transition-[box-shadow_0.3s_ease,font-size_0.3s_ease] hover:text-[1.1rem] hover:cursor-pointer hover:shadow-[0px_0px_7px_rgba(0,0,0,0.6)]'
 							>
 								{/* Контейнер для изображения */}

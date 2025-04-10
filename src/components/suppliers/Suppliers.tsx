@@ -18,7 +18,6 @@ const Suppliers: FC<ISuppliersProps> = ({ data, title }) => {
 					: 'marketPrefix' in el
 						? el.name
 						: 'Неизвестно';
-			console.log(stringName);
 			setNameDetailInfo(stringName);
 		}
 	};
@@ -56,7 +55,7 @@ const Suppliers: FC<ISuppliersProps> = ({ data, title }) => {
 									className='flex gap-3 w-full rounded-[0.428rem] py-2.5 px-3.5 shadow-[0px_0px_4px_rgba(0,0,0,0.4)] transition-[box-shadow_0.3s_ease,font-size_0.3s_ease] hover:text-[1.1rem] hover:cursor-pointer hover:shadow-[0px_0px_7px_rgba(0,0,0,0.6)]'
 								>
 									<img
-										src={el.img}
+										src={el.img || '/images/no_image.jpg'}
 										alt='preview'
 										className='w-32 h-32 rounded-[0.428rem]'
 									/>

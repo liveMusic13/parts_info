@@ -18,7 +18,6 @@ export const useSearchProducts = () => {
 			refetch();
 			if (pathname !== '/') {
 				nav('/');
-				console.log('router');
 			}
 		},
 		[pathname],

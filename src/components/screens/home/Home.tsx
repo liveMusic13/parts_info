@@ -14,8 +14,10 @@ import Input from '../../ui/input/Input';
 import Loader from '../../ui/loader/Loader';
 
 const Home: FC = () => {
+	const searchParams = new URLSearchParams(window.location.search);
+	const valueSearchFromURL = searchParams.get('valueSearch') || '';
 	const { handleChangeSearchValue, handleClickSearch } = useSearchProducts();
-	const valueSearch = useSearchStore(store => store.valueSearch);
+	const { valueSearch, setValueSearch } = useSearchStore(store => store);
 	const [filteredData, setFilteredData] = useState<ISuppliersResponse | null>(
 		null,
 	);
@@ -31,6 +33,14 @@ const Home: FC = () => {
 	} = useGetDetailInfo(valueSearch, nameDetailInfo);
 	const { data, isLoading, isSuccess, refetch, isError, error } =
 		useGetSuppliers(valueSearch);
+
+	useEffect(() => {
+		if (valueSearchFromURL) {
+			setValueSearch(valueSearchFromURL);
+			const timeoutId = setTimeout(() => refetch(), 2000);
+			return () => clearTimeout(timeoutId);
+		}
+	}, [valueSearchFromURL]);
 
 	useEffect(() => {
 		if (isSuccess) {
