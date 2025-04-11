@@ -93,7 +93,7 @@ const Home: FC = () => {
 					onChange={handleChangeSearchValue}
 				/>
 			</div>
-			<div className='flex flex-col border-1 border-[rgba(0,0,0,0.3)] grow mt-5 gap-7.5 rounded-[0.714rem] w-full py-2.5 px-3.5 '>
+			<div className='flex flex-col grow mt-5 gap-7.5 rounded-[0.714rem] w-1/2 py-2.5 px-3.5 '>
 				{(isLoading || isLoading_detail) && <Loader />}
 				{(isError || isError_detail) && (
 					<div>

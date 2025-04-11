@@ -24,7 +24,7 @@ const Suppliers: FC<ISuppliersProps> = ({ data, title }) => {
 
 	return (
 		<div>
-			<h3 className='font-medium mb-2 '>{title}</h3>
+			<h3 className='font-bold mb-2 text-2xl'>{title}</h3>
 			<ul className='flex flex-col gap-3.5'>
 				{data &&
 					data?.map(el => {

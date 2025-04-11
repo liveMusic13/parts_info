@@ -23,6 +23,12 @@ const Input: FC<IInputProps> = ({
 				className={`grow-1 rounded-[0.428rem] outline-0 pl-2.5 ${classNameInput}`}
 				value={value}
 				onChange={onChange}
+				onKeyDown={e => {
+					//HELP: Если нажат Enter и есть кнопка — вызываем onClickButton
+					if (e.code === 'Enter' && isButton && onClickButton) {
+						onClickButton();
+					}
+				}}
 			/>
 			{isButton && (
 				<Button
