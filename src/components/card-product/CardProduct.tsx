@@ -1,9 +1,9 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { useEtPart } from '../../hooks/requests/useEtPart';
 import { useGetDetailInfo } from '../../hooks/requests/useGetDetailInfo';
 import { useNameForDetailInfoStore, useSearchStore } from '../../store/store';
-import { IEtPartResponse, IFullInfo } from '../../types/request.types';
+import { IFullInfo } from '../../types/request.types';
 import Button from '../ui/button/Button';
 import Loader from '../ui/loader/Loader';
 
@@ -11,6 +11,7 @@ import Info from './info/Info';
 import SliderImage from './slider-image/SliderImage';
 
 const CardProduct: FC = () => {
+	const [viewDescription, setViewDescription] = useState<boolean>(false);
 	const valueSearch = useSearchStore(store => store.valueSearch);
 	const nameDetailInfo = useNameForDetailInfoStore(
 		store => store.nameDetailInfo,
@@ -38,6 +39,10 @@ const CardProduct: FC = () => {
 	} = useEtPart(articleCode, supplierId);
 
 	const handleClick = () => refetch();
+
+	useEffect(() => {
+		if (isSuccess_etPart) setViewDescription(true);
+	}, [isSuccess_etPart]);
 
 	useEffect(() => {
 		if (nameDetailInfo) refetch_detailInfo();
@@ -73,7 +78,10 @@ const CardProduct: FC = () => {
 							title='Ean'
 							value={(data as IFullInfo)?.article_ean?.ean || ''}
 						/>
-						<Button className='rounded-[0.428rem] my-2.5' onClick={handleClick}>
+						<Button
+							className={`rounded-[0.428rem] my-2.5 ${viewDescription ? 'hidden' : ''}`}
+							onClick={handleClick}
+						>
 							Дополнительно
 						</Button>
 						{isError_etPart && (
@@ -81,42 +89,34 @@ const CardProduct: FC = () => {
 						)}
 						{isLoading_etPart && <Loader />}
 
-						{isSuccess_etPart &&
+						{viewDescription &&
+							isSuccess_etPart &&
 							!isError_etPart &&
-							(data_etPart as IEtPartResponse[]) &&
-							(data_etPart as IEtPartResponse[])[0] && (
+							data_etPart &&
+							data_etPart[0] && (
 								<>
-									<Info
-										title='Код детали: '
-										value={(data_etPart as IEtPartResponse[])[0].code}
-									/>
+									<Info title='Код детали: ' value={data_etPart[0].code} />
 									<Info
 										title='Литературный код детали: '
-										value={(data_etPart as IEtPartResponse[])[0].longcode}
+										value={data_etPart[0].longcode}
 									/>
-									<Info
-										title='Вес детали: '
-										value={(data_etPart as IEtPartResponse[])[0].weight}
-									/>
-									<Info
-										title='Объем детали: '
-										value={(data_etPart as IEtPartResponse[])[0].V}
-									/>
+									<Info title='Вес детали: ' value={data_etPart[0].weight} />
+									<Info title='Объем детали: ' value={data_etPart[0].V} />
 									<Info
 										title='Флаг неизменности (кода) детали: '
-										value={(data_etPart as IEtPartResponse[])[0].nochangeflag}
+										value={data_etPart[0].nochangeflag}
 									/>
 									<Info
 										title='Флаг старой детали: '
-										value={(data_etPart as IEtPartResponse[])[0].old}
+										value={data_etPart[0].old}
 									/>
 									<Info
 										title='Флаг удаленности детали: '
-										value={(data_etPart as IEtPartResponse[])[0].deleted}
+										value={data_etPart[0].deleted}
 									/>
 									<Info
 										title='Флаг разрешенности детали: '
-										value={(data_etPart as IEtPartResponse[])[0].accepted}
+										value={data_etPart[0].accepted}
 									/>
 								</>
 							)}

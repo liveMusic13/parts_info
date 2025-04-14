@@ -64,7 +64,7 @@ const Home: FC = () => {
 						const tdItem = tdMap.get(item.tecdocSupplierId);
 						if (tdItem) {
 							// Перезаписываем description_two значением из второго массива
-							tdItem.description_two = item.marketPrefix;
+							tdItem.description_two = item.prefix;
 						}
 						// Исключаем элемент из второго массива
 						return false;

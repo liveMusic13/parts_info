@@ -16,7 +16,7 @@ const Suppliers: FC<ISuppliersProps> = ({ data, title }) => {
 				'description' in el
 					? el.description
 					: 'marketPrefix' in el
-						? el.name
+						? el.prefix
 						: 'Неизвестно';
 			setNameDetailInfo(stringName);
 		}
@@ -31,19 +31,19 @@ const Suppliers: FC<ISuppliersProps> = ({ data, title }) => {
 						const link =
 							'matchcode' in el
 								? `/product/${el.matchcode}_${el.description}`
-								: `/product/${el.marketPrefix}_${el.name}`;
+								: `/product/${el.prefix}_${el.name}`;
 						const spanOne =
 							'matchcode' in el
 								? el.matchcode || 'Нету данных'
 								: 'marketPrefix' in el
-									? el.marketPrefix || 'Нету данных'
+									? el.prefix || 'Нету данных'
 									: 'Неизвестно';
 						const spanOne_two = 'description' in el ? el?.description_two : '';
 						const spanTwo =
 							'description' in el
 								? el.description || 'Нету данных'
 								: 'marketPrefix' in el
-									? el.name || 'Нету данных'
+									? el.prefix || 'Нету данных'
 									: 'Неизвестно';
 						const color =
 							'description' in el ? 'text-blue-500' : 'text-[var(--red)]';
