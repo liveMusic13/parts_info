@@ -4,6 +4,7 @@ import { otherInfoButtons } from '../../../data/panel.data';
 import { IOtherInfoProps } from '../../../types/props.types';
 import PanelTarget from '../../ui/panel-target/PanelTarget';
 
+import Applicability from './applicability/Applicability';
 import Description from './description/Description';
 import Substitutes from './substitutes/Substitutes';
 
@@ -32,6 +33,7 @@ const OtherInfo: FC<IOtherInfoProps> = ({ data_detail }) => {
 			/>
 			{activeButton === 'Описание' && <Description data_detail={data_detail} />}
 			{activeButton === 'Аналоги' && <Substitutes />}
+			{activeButton === 'Применимость' && <Applicability />}
 		</div>
 	);
 };

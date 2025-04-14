@@ -189,3 +189,32 @@ export interface IJSSCrossRequest {
 	cr_verity: string;
 	et_producer: IEtProducerRequest;
 }
+
+export interface IAttributes {
+	Title: string;
+	Value: string;
+}
+
+export interface IModification {
+	construction_interval: string;
+	description: string;
+}
+
+export interface ISubstitutes {
+	Name: string;
+	Type: string;
+	Attributes: IAttributes[];
+	Modification: IModification;
+	ModelId: number;
+}
+
+export interface IModels {
+	ModelId: number;
+	ModelName: string;
+	Substitutes: ISubstitutes[];
+}
+
+export interface ISubstituteResponse {
+	SubstitutesCount: number;
+	Models: IModels[];
+}
