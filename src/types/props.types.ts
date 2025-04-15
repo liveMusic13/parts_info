@@ -50,3 +50,7 @@ export interface IDescriptionProps {
 export interface ICroseCodeProps {
 	isTecDoc: boolean;
 }
+
+export interface IAdditionalInfoProps {
+	id: number | undefined;
+}

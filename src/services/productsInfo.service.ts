@@ -5,6 +5,7 @@ import {
 	IFullInfo,
 	IJSSCrossRequest,
 	ISubstituteResponse,
+	ISuppliersByIdResponse,
 	ISuppliersResponse,
 	ITecDocCrossResponse,
 	IVolnaPartsResponse,
@@ -18,6 +19,20 @@ export const ProductsInfoService = {
 
 		try {
 			const response = await $axios.get(`/suppliers/${article}`);
+
+			return { status: response.status, data: response.data };
+		} catch (axiosError: any) {
+			const error = axiosError;
+			throw new Error(error.response?.data?.message || error.message);
+		}
+	},
+	suppliers_byId: async (
+		id: string | number | undefined,
+	): Promise<IApiResponse<ISuppliersByIdResponse[]>> => {
+		try {
+			if (!id) throw new Error('Id товара не найден');
+
+			const response = await $axios.get(`/suppliers/by-id/${id}`);
 
 			return { status: response.status, data: response.data };
 		} catch (axiosError: any) {

@@ -7,6 +7,7 @@ import { IFullInfo } from '../../types/request.types';
 import Button from '../ui/button/Button';
 import Loader from '../ui/loader/Loader';
 
+import AdditionalInfo from './additional-info/AdditionalInfo';
 import Info from './info/Info';
 import SliderImage from './slider-image/SliderImage';
 
@@ -121,6 +122,7 @@ const CardProduct: FC = () => {
 								</>
 							)}
 					</div>
+					{isSuccess && <AdditionalInfo id={data?.supplier_from_td.id} />}
 				</>
 			)}
 		</div>

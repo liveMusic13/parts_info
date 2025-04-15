@@ -218,3 +218,25 @@ export interface ISubstituteResponse {
 	SubstitutesCount: number;
 	Models: IModels[];
 }
+
+export interface ISuppliersByIdResponse {
+	addresstype: string | null;
+	addresstypeid: string | null;
+	city1: string | null;
+	city2: string | null;
+	countrycode: string | null;
+	email: string | null;
+	fax: string | null;
+	homepage: string | null;
+	name1: string | null;
+	name2: string | null;
+	postalcodecity: string | null;
+	postalcodepob: string | null;
+	postalcodewholesaler: string | null;
+	postalcountrycode: string | null;
+	postofficebox: string | null;
+	street1: string | null;
+	street2: string | null;
+	supplierid: number | null;
+	telephone: string | null;
+}
