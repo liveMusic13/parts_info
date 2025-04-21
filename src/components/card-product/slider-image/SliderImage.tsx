@@ -59,7 +59,7 @@ const SliderImage: FC<ISliderImageProps> = ({
 		<>
 			{/* Обычный режим */}
 			<div
-				className={`relative text-center min-w-[21rem] h-[21rem] bg-[var(--white) p-5 rounded-[0.57rem]  flex flex-col justify-between`}
+				className={`relative text-center w-[21rem] h-[21rem] bg-[var(--white) p-5 rounded-[0.57rem]  flex flex-col justify-between`}
 				style={{ boxShadow: `0px 0px 6px 0px ${colorImage}` }}
 			>
 				<div className='w-full h-36 flex items-center justify-between group'>
