@@ -30,8 +30,8 @@ const ProductPage: FC = () => {
 	);
 	const {
 		data: data_prPart,
-		isError: isError_prPart,
-		isLoading: isLoading_prPart,
+		// isError: isError_prPart,
+		// isLoading: isLoading_prPart,
 		isSuccess: isSuccess_prPart,
 		error: error_prPart,
 	} = usePrPart(valueSearch);
@@ -44,8 +44,8 @@ const ProductPage: FC = () => {
 	} = useGetSuppliers(valueSearch);
 	const {
 		data: data_partsDetail,
-		isError: isError_partsDetail,
-		isLoading: isLoading_partsDetail,
+		// isError: isError_partsDetail,
+		// isLoading: isLoading_partsDetail,
 		isSuccess: isSuccess_partsDetail,
 		error: error_partsDetail,
 	} = useVolnaPartsDetail(
