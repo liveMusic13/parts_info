@@ -2,6 +2,9 @@ import { FC, useEffect, useState } from 'react';
 
 import { useEtPart } from '../../hooks/requests/useEtPart';
 import { useGetDetailInfo } from '../../hooks/requests/useGetDetailInfo';
+import { useGetSuppliers } from '../../hooks/requests/useGetSuppliers';
+import { usePrPart } from '../../hooks/requests/usePrPart';
+import { useVolnaPartsDetail } from '../../hooks/requests/useVolnaPartsDetail';
 import { useNameForDetailInfoStore, useSearchStore } from '../../store/store';
 import { IFullInfo } from '../../types/request.types';
 import Button from '../ui/button/Button';
@@ -26,6 +29,25 @@ const CardProduct: FC = () => {
 		error,
 		refetch: refetch_detailInfo,
 	} = useGetDetailInfo(valueSearch, nameDetailInfo);
+	const { data: data_supliers } = useGetSuppliers(valueSearch);
+	const {
+		data: data_prPart,
+		isError: isError_prPart,
+		isLoading: isLoading_prPart,
+		isSuccess: isSuccess_prPart,
+		error: error_prPart,
+	} = usePrPart(valueSearch);
+
+	const {
+		data: data_partsDetail,
+		isError: isError_partsDetail,
+		isLoading: isLoading_partsDetail,
+		isSuccess: isSuccess_partsDetail,
+		error: error_partsDetail,
+	} = useVolnaPartsDetail(
+		valueSearch,
+		data_supliers?.suppliersFromTd[0].id || null,
+	);
 
 	const articleCode = (data as IFullInfo)?.article_schema?.FoundString || '';
 	const supplierId = (data as IFullInfo)?.supplier_from_jc.id;
@@ -50,35 +72,56 @@ const CardProduct: FC = () => {
 	}, [nameDetailInfo]);
 
 	return (
-		<div className='mt-5 w-full p-7.5 bg-[var(--white)] rounded-xl shadow-[0px_0px_10px_rgba(0,0,0,0.08)] flex gap-10'>
-			{isLoading && <Loader />}
-			{isError && <div>Ошибка получения данных: {error?.message}</div>}
-			{isSuccess && (
+		<div className='mt-5 w-4/5 p-7.5 bg-[var(--white)] rounded-xl shadow-[0px_0px_10px_rgba(0,0,0,0.08)] flex justify-between gap-10'>
+			{(isLoading || isLoading_partsDetail || isLoading_prPart) && <Loader />}
+			{(isError || isError_partsDetail || isError_prPart) && (
+				<div>
+					Ошибка получения данных:{' '}
+					{error?.message ||
+						error_partsDetail?.message ||
+						error_prPart?.message}
+				</div>
+			)}
+			{isSuccess && isSuccess_partsDetail && isSuccess_prPart && (
 				<>
 					<SliderImage
-						arrImage={[
-							...(data as IFullInfo).img_urls,
-							...(data as IFullInfo).img_urls,
-							...(data as IFullInfo).img_urls,
-						]}
+						data={data as IFullInfo}
+						data_partsDetail={data_partsDetail}
+						data_prPart={data_prPart}
 					/>
-					<div className='w-[41%]'>
+					<div className='grow-1'>
 						<Info
 							title='Нормализованный артикул:'
 							value={(data as IFullInfo)?.normalized_article || ''}
 						/>
 						<Info
 							title='Поставщик JC:'
+							classNameText='text-[var(--red)]'
 							value={(data as IFullInfo)?.supplier_from_jc?.name || ''}
 						/>
 						<Info
 							title='Поставщик TD:'
+							classNameText='text-blue-500'
 							value={(data as IFullInfo)?.supplier_from_td?.description || ''}
 						/>
 						<Info
 							title='Ean'
 							value={(data as IFullInfo)?.article_ean?.ean || ''}
 						/>
+
+						{data_prPart && data_prPart[0] && (
+							<>
+								<Info
+									title='Код вендора, с ресурса которого был спаршен продукт'
+									value={data_prPart[0].Vendor_Code || ''}
+								/>
+								<Info title='Код OEM' value={data_prPart[0].OEM_Code || ''} />
+								<Info
+									title='Название категории'
+									value={data_prPart[0].Vendor_Category_Name || ''}
+								/>
+							</>
+						)}
 						<Button
 							className={`rounded-[0.428rem] my-2.5 ${viewDescription ? 'hidden' : ''}`}
 							onClick={handleClick}
@@ -89,7 +132,6 @@ const CardProduct: FC = () => {
 							<div>Ошибка получения данных: {error_etPart?.message}</div>
 						)}
 						{isLoading_etPart && <Loader />}
-
 						{viewDescription &&
 							isSuccess_etPart &&
 							!isError_etPart &&
@@ -121,8 +163,19 @@ const CardProduct: FC = () => {
 									/>
 								</>
 							)}
+						{isSuccess_partsDetail && (
+							<Info
+								title='Название: '
+								value={data_partsDetail[0]?.name || 'Нету данных'}
+							/>
+						)}
 					</div>
-					{isSuccess && <AdditionalInfo id={data?.supplier_from_td.id} />}
+					{isSuccess && isSuccess_partsDetail && (
+						<AdditionalInfo
+							id={data?.supplier_from_td?.id}
+							image={data_partsDetail[0]?.manufacturer_image}
+						/>
+					)}
 				</>
 			)}
 		</div>

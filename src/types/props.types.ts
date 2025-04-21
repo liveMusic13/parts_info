@@ -1,6 +1,12 @@
 import { ChangeEvent, PropsWithChildren } from 'react';
 
-import { IFullInfo, IJs, ITd } from './request.types';
+import {
+	IFullInfo,
+	IJs,
+	IPrPartsResponse,
+	ITd,
+	IVolnaPartsDetailResponse,
+} from './request.types';
 
 export interface IInputProps {
 	className?: string;
@@ -25,12 +31,15 @@ export interface ISuppliersProps {
 }
 
 export interface ISliderImageProps {
-	arrImage: string[];
+	data_prPart: IPrPartsResponse[];
+	data: IFullInfo;
+	data_partsDetail: IVolnaPartsDetailResponse[];
 }
 
 export interface IInfoProps {
 	title: string;
 	value: string | number | boolean;
+	classNameText?: string;
 }
 
 export interface IPanelTargetProps {
@@ -41,10 +50,17 @@ export interface IPanelTargetProps {
 
 export interface IOtherInfoProps {
 	data_detail: IFullInfo;
+	data_partsDetail: IVolnaPartsDetailResponse[];
+	data_prPart: IPrPartsResponse[];
 }
 
 export interface IDescriptionProps {
 	data_detail: IFullInfo;
+}
+
+export interface IDescriptionDetailProps {
+	data_partsDetail?: IVolnaPartsDetailResponse[];
+	data_prPart?: IPrPartsResponse[];
 }
 
 export interface ICroseCodeProps {
@@ -53,4 +69,5 @@ export interface ICroseCodeProps {
 
 export interface IAdditionalInfoProps {
 	id: number | undefined;
+	image: string;
 }

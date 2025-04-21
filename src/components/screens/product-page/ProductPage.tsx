@@ -3,6 +3,8 @@ import { FC } from 'react';
 import { useSearchProducts } from '../../../hooks/logics/useSearchProducts';
 import { useGetDetailInfo } from '../../../hooks/requests/useGetDetailInfo';
 import { useGetSuppliers } from '../../../hooks/requests/useGetSuppliers';
+import { usePrPart } from '../../../hooks/requests/usePrPart';
+import { useVolnaPartsDetail } from '../../../hooks/requests/useVolnaPartsDetail';
 import {
 	useNameForDetailInfoStore,
 	useSearchStore,
@@ -26,7 +28,30 @@ const ProductPage: FC = () => {
 		valueSearch,
 		nameDetailInfo,
 	);
-	const { isLoading, refetch, isError, error } = useGetSuppliers(valueSearch);
+	const {
+		data: data_prPart,
+		isError: isError_prPart,
+		isLoading: isLoading_prPart,
+		isSuccess: isSuccess_prPart,
+		error: error_prPart,
+	} = usePrPart(valueSearch);
+	const {
+		isLoading,
+		refetch,
+		isError,
+		error,
+		data: data_supliers,
+	} = useGetSuppliers(valueSearch);
+	const {
+		data: data_partsDetail,
+		isError: isError_partsDetail,
+		isLoading: isLoading_partsDetail,
+		isSuccess: isSuccess_partsDetail,
+		error: error_partsDetail,
+	} = useVolnaPartsDetail(
+		valueSearch,
+		data_supliers?.suppliersFromTd[0].id || null,
+	);
 
 	return (
 		<Layout>
@@ -40,10 +65,30 @@ const ProductPage: FC = () => {
 				/>
 			</div>
 			{isLoading && <Loader />}
-			{isError && <div>Ошибка получения данных: {error?.message}</div>}
+			{/* {(isLoading || isLoading_partsDetail || isLoading_prPart) && <Loader />} */}
+			{/* {(isError || isError_partsDetail || isError_prPart) && (
+				<div>
+					Ошибка получения данных:{' '}
+					{error?.message ||
+						error_partsDetail?.message ||
+						error_prPart?.message}
+				</div>
+			)} */}
+			{isError && (
+				<div>
+					Ошибка получения данных:{' '}
+					{error?.message ||
+						error_partsDetail?.message ||
+						error_prPart?.message}
+				</div>
+			)}
 			<CardProduct />
-			{isSuccess_detail && data_detail && (
-				<OtherInfo data_detail={data_detail as IFullInfo} />
+			{isSuccess_detail && isSuccess_partsDetail && isSuccess_prPart && (
+				<OtherInfo
+					data_detail={data_detail as IFullInfo}
+					data_partsDetail={data_partsDetail}
+					data_prPart={data_prPart}
+				/>
 			)}
 		</Layout>
 	);

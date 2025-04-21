@@ -4,14 +4,30 @@ import {
 	IEtPartResponse,
 	IFullInfo,
 	IJSSCrossRequest,
+	IPrPartsResponse,
 	ISubstituteResponse,
 	ISuppliersByIdResponse,
 	ISuppliersResponse,
 	ITecDocCrossResponse,
+	IVolnaPartsDetailResponse,
 	IVolnaPartsResponse,
 } from '../types/request.types';
 
 export const ProductsInfoService = {
+	pr_part: async (
+		article: string,
+	): Promise<IApiResponse<IPrPartsResponse[]>> => {
+		if (!article) throw new Error('Артикул не введен');
+
+		try {
+			const response = await $axios.get(`/pr-part/?article=${article}`);
+
+			return { status: response.status, data: response.data };
+		} catch (axiosError: any) {
+			const error = axiosError;
+			throw new Error(error.response?.data?.message || error.message);
+		}
+	},
 	suppliers: async (
 		article: string,
 	): Promise<IApiResponse<ISuppliersResponse>> => {
@@ -72,11 +88,32 @@ export const ProductsInfoService = {
 			throw new Error(error.response?.data?.message || error.message);
 		}
 	},
+	volna_parts_details: async (
+		article: string,
+		id: number | null,
+	): Promise<IApiResponse<IVolnaPartsDetailResponse[]>> => {
+		if (!id) throw new Error('Id товара не найден');
+
+		try {
+			const response = await $axios.get(`volna-parts/part-details/${article}`);
+
+			return {
+				data: response.data,
+				status: response.status,
+			};
+		} catch (axiosError: any) {
+			const error = axiosError;
+			throw new Error(error.response?.data?.message || error.message);
+		}
+	},
 	volna_parts: async (
 		article: string,
+		id: number | null,
 	): Promise<IApiResponse<IVolnaPartsResponse[]>> => {
+		if (!id) throw new Error('Id товара не найден');
+
 		try {
-			const response = await $axios.get(`volna-parts/part/${article}`);
+			const response = await $axios.get(`volna-parts/part/${article}/${id}`);
 
 			return {
 				data: response.data,

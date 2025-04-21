@@ -5,7 +5,7 @@ import Info from '../../info/Info';
 
 const Description: FC<IDescriptionProps> = ({ data_detail }) => {
 	return (
-		<div className='mt-5 max-w-2/3 flex flex-col gap-2.5'>
+		<div className='my-5 max-w-2/3 flex flex-col gap-2.5'>
 			<h2>Описание: </h2>
 			<Info
 				title='Артикул в нормальном написании (со спецсимволами): '

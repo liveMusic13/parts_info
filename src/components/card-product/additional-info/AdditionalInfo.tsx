@@ -4,18 +4,25 @@ import { useGetSuppliersById } from '../../../hooks/requests/useGetSuppliersById
 import { IAdditionalInfoProps } from '../../../types/props.types';
 import Loader from '../../ui/loader/Loader';
 
-const AdditionalInfo: FC<IAdditionalInfoProps> = ({ id }) => {
+const AdditionalInfo: FC<IAdditionalInfoProps> = ({ id, image }) => {
 	const { data, isSuccess, isLoading, isError, error } =
 		useGetSuppliersById(id);
 
 	console.log('data', data);
 
 	return (
-		<div className='flex flex-col gap-1.5'>
+		<div className='flex flex-col gap-1.5 '>
 			{isLoading && <Loader />}
 			{isError && <div>Ошибка получения данных: {error?.message}</div>}
 			{isSuccess && data && (
 				<>
+					<div className='w-52 min-h-25 max-h-52 rounded-[0.5rem] shadow-[0px_0px_4px_rgba(0,0,0,0.2)] mb-8'>
+						<img
+							src={image || '/images/no_image.jpg'}
+							alt='image'
+							className='h-full'
+						/>
+					</div>
 					<div>
 						<p className='font-bold'>Адрес:</p>
 						<span>{data[0].city1}</span>, <span>{data[0].city2}</span>
@@ -79,9 +86,6 @@ const AdditionalInfo: FC<IAdditionalInfoProps> = ({ id }) => {
 					<div>
 						<p className='font-bold'>Почта:</p>
 						<a href={`mailto:${data[0].email}`}>{data[0].email}</a>
-					</div>
-					<div>
-						<p className='font-bold'>Телефон:</p>
 					</div>
 					{data[0].fax && (
 						<div>

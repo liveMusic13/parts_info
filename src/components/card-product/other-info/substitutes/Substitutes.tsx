@@ -1,8 +1,12 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useGetDetailInfo } from '../../../../hooks/requests/useGetDetailInfo';
 import { useVolnaParts } from '../../../../hooks/requests/useVolnaParts';
-import { useSearchStore } from '../../../../store/store';
+import {
+	useNameForDetailInfoStore,
+	useSearchStore,
+} from '../../../../store/store';
 import {
 	IReplacement,
 	IVolnaPartsResponse,
@@ -16,11 +20,26 @@ const Substitutes: FC = () => {
 	const [arrData, setArrData] = useState<IReplacement[] | null>();
 	const [viewCodeTD, setViewCodeTD] = useState<boolean>(false);
 	const [viewCodeJSS, setViewCodeJSS] = useState<boolean>(false);
+	const nameDetailInfo = useNameForDetailInfoStore(
+		store => store.nameDetailInfo,
+	);
 
-	const { data, error, isError, isLoading, isSuccess } =
-		useVolnaParts(valueSearch);
+	const {
+		data: data_fullInfo,
+		// isLoading,
+		// isSuccess,
+		// isError,
+		// error,
+	} = useGetDetailInfo(valueSearch, nameDetailInfo);
+
+	const { data, error, isError, isLoading, isSuccess } = useVolnaParts(
+		valueSearch,
+		data_fullInfo?.supplier_from_td.id || null,
+	);
 
 	useEffect(() => {
+		console.log('isSuccess && data', isSuccess, data);
+
 		if (isSuccess) {
 			const allData = (data as IVolnaPartsResponse[]).flatMap(el => [
 				...el.replacements,
@@ -34,6 +53,8 @@ const Substitutes: FC = () => {
 		setValue: Dispatch<SetStateAction<boolean>>,
 	) => setValue(!value);
 
+	console.log('arrData', arrData);
+
 	return (
 		<div className='mt-5'>
 			{isLoading && <Loader />}
@@ -43,13 +64,12 @@ const Substitutes: FC = () => {
 					arrData.map((el, ind) => (
 						<li key={ind}>
 							<Link
-								// to={`/`}
 								to={`/?valueSearch=${encodeURIComponent(el.article)}`}
 								target='_blank'
 								className='flex flex-col h-full w-80 rounded-[0.428rem] shadow-[0px_0px_4px_rgba(0,0,0,0.4)] transition-[box-shadow_0.3s_ease,font-size_0.3s_ease] hover:text-[1.1rem] hover:cursor-pointer hover:shadow-[0px_0px_7px_rgba(0,0,0,0.6)]'
 							>
 								{/* Контейнер для изображения */}
-								<div className='flex-shrink-0'>
+								<div className='flex-shrink-0 pt-3 px-5'>
 									<img
 										src={el.image}
 										alt='preview'

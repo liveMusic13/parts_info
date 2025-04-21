@@ -1,34 +1,67 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { ISliderImageProps } from '../../../types/props.types';
 
-const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
+// text-[var(--red)]
+const SliderImage: FC<ISliderImageProps> = ({
+	data,
+	data_partsDetail,
+	data_prPart,
+}) => {
 	const [currentIndex, setCurrentIndex] = useState<number>(0);
 	const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 	const [isScale, setIsScale] = useState(false);
+	const arrImage = [
+		...data?.img_urls,
+		...(data_partsDetail[0]?.images || []),
+		...data_prPart[0]?.images,
+	];
+	const [colorImage, setColorImage] = useState<string>('rgba(0,0,0,0.2)');
 
 	const handleScale = () => setIsScale(!isScale);
+	const handleColorImage = () => {
+		const getImage = arrImage[currentIndex];
 
+		data?.img_urls.forEach(el =>
+			el === getImage ? setColorImage('#2b7fff') : null,
+		);
+		data_partsDetail[0]?.images.forEach(el =>
+			el === getImage ? setColorImage('#8ec5ff') : null,
+		);
+		data_prPart[0]?.images.forEach(el =>
+			el === getImage ? setColorImage('purple') : null,
+		);
+	};
 	const handleThumbnailClick = (index: number) => {
 		setCurrentIndex(index);
 	};
-
 	const handleNext = () => {
 		setCurrentIndex(prev => (prev + 1) % arrImage.length);
+		// const nextIndex = (currentIndex + 1) % arrImage.length; // Вычисляем следующий индекс
+		// setCurrentIndex(nextIndex); // Обновляем состояние
+		// handleCallbackImage(arrImage[nextIndex]);
 	};
-
 	const handlePrev = () => {
 		setCurrentIndex(prev => (prev - 1 + arrImage.length) % arrImage.length);
-	};
 
+		// const prevIndex = (currentIndex - 1) % arrImage.length; // Вычисляем следующий индекс
+		// setCurrentIndex(prevIndex); // Обновляем состояние
+		// handleCallbackImage(arrImage[prevIndex]);
+	};
 	const toggleFullscreen = () => {
 		setIsFullscreen(!isFullscreen);
 	};
 
+	useEffect(() => handleColorImage(), [currentIndex]);
+
+	// shadow-[0px_0px_6px_0px_rgba(0,0,0,0.2)]
 	return (
 		<>
 			{/* Обычный режим */}
-			<div className='relative text-center w-[21rem] h-[21rem] bg-[var(--white) p-5 rounded-[0.57rem] shadow-[0px_0px_6px_0px_rgba(0,0,0,0.2)] flex flex-col justify-between'>
+			<div
+				className={`relative text-center min-w-[21rem] h-[21rem] bg-[var(--white) p-5 rounded-[0.57rem]  flex flex-col justify-between`}
+				style={{ boxShadow: `0px 0px 6px 0px ${colorImage}` }}
+			>
 				<div className='w-full h-36 flex items-center justify-between group'>
 					<button
 						className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out hover:cursor-pointer bg-transparent'
@@ -39,7 +72,6 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 
 					<img
 						className='object-cover w-fit h-full hover:cursor-pointer'
-						// src={arrImage[currentIndex]}
 						src={
 							arrImage.length > 0
 								? arrImage[currentIndex]
@@ -62,18 +94,22 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 				</p>
 
 				<div className='flex gap-1.5 h-12 overflow-y-auto overflow-x-hidden w-full justify-center'>
-					{arrImage.map((img, index) => (
-						<img
-							key={index}
-							className='w-12 h-12 rounded-[4px] object-cover hover:cursor-pointer'
-							src={img}
-							alt='thumbnail'
-							onClick={() => handleThumbnailClick(index)}
-							style={{
-								border: index === currentIndex ? '1px solid black' : 'none',
-							}}
-						/>
-					))}
+					{arrImage.map((img, index) => {
+						const border =
+							index === currentIndex ? `1px solid ${colorImage}` : '';
+						return (
+							<img
+								key={index}
+								className={`w-12 h-12 rounded-[4px] object-cover hover:cursor-pointer`}
+								src={img}
+								alt='thumbnail'
+								onClick={() => handleThumbnailClick(index)}
+								style={{
+									border: border,
+								}}
+							/>
+						);
+					})}
 				</div>
 			</div>
 
@@ -116,19 +152,23 @@ const SliderImage: FC<ISliderImageProps> = ({ arrImage }) => {
 					</div>
 
 					<div className='absolute bottom-7 flex gap-3.5 '>
-						{arrImage.map((img, index) => (
-							<img
-								key={index}
-								className='w-36 h-24 rounded-[0.42rem] object-cover hover:cursor-pointer'
-								src={img}
-								alt='thumbnail'
-								onClick={() => handleThumbnailClick(index)}
-								style={{
-									boxShadow:
-										index === currentIndex ? '0px 0px 10px red' : 'none',
-								}}
-							/>
-						))}
+						{arrImage.map((img, index) => {
+							const boxShadow =
+								index === currentIndex ? `0px 0px 20px 0px ${colorImage}` : '';
+
+							return (
+								<img
+									key={index}
+									className={`w-36 h-24 rounded-[0.42rem] object-cover hover:cursor-pointer ${boxShadow}`}
+									src={img}
+									alt='thumbnail'
+									onClick={() => handleThumbnailClick(index)}
+									style={{
+										boxShadow: boxShadow,
+									}}
+								/>
+							);
+						})}
 					</div>
 				</div>
 			)}

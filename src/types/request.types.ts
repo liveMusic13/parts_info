@@ -240,3 +240,44 @@ export interface ISuppliersByIdResponse {
 	supplierid: number | null;
 	telephone: string | null;
 }
+
+export interface IAttributesPrParts {
+	name: string;
+	value: string;
+}
+
+export interface IPrPartsResponse {
+	article: string;
+	brand: string;
+	Vendor_Code: string;
+	images: string[];
+	attributes: IAttributesPrParts[];
+	Vendor_Category_Name: string;
+	OEM_Code: string;
+	OEM_Mark: string;
+	models: string[];
+}
+
+export interface IAttributesDetail {
+	Title: string;
+	Value: string;
+}
+
+export interface INumbersDetail {
+	number: string;
+	search_link: string;
+}
+
+export interface ICrossNumbers {
+	manufacturer: string;
+	numbers: INumbersDetail[];
+}
+
+export interface IVolnaPartsDetailResponse {
+	name: string;
+	images: string[];
+	attributes: IAttributesDetail[];
+	characteristics: IAttributesDetail[];
+	manufacturer_image: string;
+	cross_numbers: ICrossNumbers[];
+}
